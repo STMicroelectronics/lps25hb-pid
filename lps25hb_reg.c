@@ -727,7 +727,7 @@ int32_t lps25hb_pressure_offset_set(const stmdev_ctx_t *ctx, int16_t val)
 
   buff[1] = (uint8_t)((uint16_t)val / 256U);
   buff[0] = (uint8_t)((uint16_t)val - (buff[1] * 256U));
-  ret = lps25hb_read_reg(ctx, LPS25HB_RPDS_L,  buff, 2);
+  ret = lps25hb_write_reg(ctx, LPS25HB_RPDS_L,  buff, 2);
 
   return ret;
 }
