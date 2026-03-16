@@ -215,19 +215,19 @@ int32_t lps25hb_pressure_avg_get(const stmdev_ctx_t *ctx,
 
   switch (reg.avgp)
   {
-    case LPS25HB_P_AVG_8:
+    case 0x00:
       *val = LPS25HB_P_AVG_8;
       break;
 
-    case LPS25HB_P_AVG_16:
+    case 0x01:
       *val = LPS25HB_P_AVG_16;
       break;
 
-    case LPS25HB_P_AVG_32:
+    case 0x02:
       *val = LPS25HB_P_AVG_32;
       break;
 
-    case LPS25HB_P_AVG_64:
+    case 0x03:
       *val = LPS25HB_P_AVG_64;
       break;
 
@@ -284,19 +284,19 @@ int32_t lps25hb_temperature_avg_get(const stmdev_ctx_t *ctx,
 
   switch (reg.avgt)
   {
-    case LPS25HB_T_AVG_8:
+    case 0x00:
       *val = LPS25HB_T_AVG_8;
       break;
 
-    case LPS25HB_T_AVG_16:
+    case 0x01:
       *val = LPS25HB_T_AVG_16;
       break;
 
-    case LPS25HB_T_AVG_32:
+    case 0x02:
       *val = LPS25HB_T_AVG_32;
       break;
 
-    case LPS25HB_T_AVG_64:
+    case 0x03:
       *val = LPS25HB_T_AVG_64;
       break;
 
@@ -443,27 +443,27 @@ int32_t lps25hb_data_rate_get(const stmdev_ctx_t *ctx, lps25hb_odr_t *val)
 
   switch (reg.odr)
   {
-    case LPS25HB_POWER_DOWN:
+    case 0x00:
       *val = LPS25HB_POWER_DOWN;
       break;
 
-    case LPS25HB_ODR_1Hz:
+    case 0x09:
       *val = LPS25HB_ODR_1Hz;
       break;
 
-    case LPS25HB_ODR_7Hz:
+    case 0x0A:
       *val = LPS25HB_ODR_7Hz;
       break;
 
-    case LPS25HB_ODR_12Hz5:
+    case 0x0B:
       *val = LPS25HB_ODR_12Hz5;
       break;
 
-    case LPS25HB_ODR_25Hz:
+    case 0x0C:
       *val = LPS25HB_ODR_25Hz;
       break;
 
-    case LPS25HB_ONE_SHOT:
+    case 0x0D:
       *val = LPS25HB_ONE_SHOT;
       break;
 
@@ -1040,19 +1040,19 @@ int32_t lps25hb_int_pin_mode_get(const stmdev_ctx_t *ctx,
 
   switch (reg.int_s)
   {
-    case LPS25HB_DRDY_OR_FIFO_FLAGS:
+    case 0x00:
       *val = LPS25HB_DRDY_OR_FIFO_FLAGS;
       break;
 
-    case LPS25HB_HIGH_PRES_INT:
+    case 0x01:
       *val = LPS25HB_HIGH_PRES_INT;
       break;
 
-    case LPS25HB_LOW_PRES_INT:
+    case 0x02:
       *val = LPS25HB_LOW_PRES_INT;
       break;
 
-    case LPS25HB_EVERY_PRES_INT:
+    case 0x03:
       *val = LPS25HB_EVERY_PRES_INT;
       break;
 
@@ -1107,11 +1107,11 @@ int32_t lps25hb_pin_mode_get(const stmdev_ctx_t *ctx, lps25hb_pp_od_t *val)
 
   switch (reg.pp_od)
   {
-    case LPS25HB_PUSH_PULL:
+    case 0x00:
       *val = LPS25HB_PUSH_PULL;
       break;
 
-    case LPS25HB_OPEN_DRAIN:
+    case 0x01:
       *val = LPS25HB_OPEN_DRAIN;
       break;
 
@@ -1168,11 +1168,11 @@ int32_t lps25hb_int_polarity_get(const stmdev_ctx_t *ctx,
 
   switch (reg.int_h_l)
   {
-    case LPS25HB_ACTIVE_HIGH:
+    case 0x00:
       *val = LPS25HB_ACTIVE_HIGH;
       break;
 
-    case LPS25HB_ACTIVE_LOW:
+    case 0x01:
       *val = LPS25HB_ACTIVE_LOW;
       break;
 
@@ -1415,19 +1415,19 @@ int32_t lps25hb_sign_of_int_threshold_get(const stmdev_ctx_t *ctx,
 
   switch (reg.pe)
   {
-    case LPS25HB_NO_THRESHOLD:
+    case 0x00:
       *val = LPS25HB_NO_THRESHOLD;
       break;
 
-    case LPS25HB_POSITIVE:
+    case 0x01:
       *val = LPS25HB_POSITIVE;
       break;
 
-    case LPS25HB_NEGATIVE:
+    case 0x02:
       *val = LPS25HB_NEGATIVE;
       break;
 
-    case LPS25HB_BOTH:
+    case 0x03:
       *val = LPS25HB_BOTH;
       break;
 
@@ -1484,11 +1484,11 @@ int32_t lps25hb_int_notification_mode_get(const stmdev_ctx_t *ctx,
 
   switch (reg.lir)
   {
-    case LPS25HB_INT_PULSED:
+    case 0x00:
       *val = LPS25HB_INT_PULSED;
       break;
 
-    case LPS25HB_INT_LATCHED:
+    case 0x01:
       *val = LPS25HB_INT_LATCHED;
       break;
 
@@ -1823,31 +1823,31 @@ int32_t lps25hb_fifo_mode_get(const stmdev_ctx_t *ctx,
 
   switch (reg.f_mode)
   {
-    case LPS25HB_BYPASS_MODE:
+    case 0x00:
       *val = LPS25HB_BYPASS_MODE;
       break;
 
-    case LPS25HB_FIFO_MODE:
+    case 0x01:
       *val = LPS25HB_FIFO_MODE;
       break;
 
-    case LPS25HB_STREAM_MODE:
+    case 0x02:
       *val = LPS25HB_STREAM_MODE;
       break;
 
-    case LPS25HB_Stream_to_FIFO_mode:
+    case 0x03:
       *val = LPS25HB_Stream_to_FIFO_mode;
       break;
 
-    case LPS25HB_BYPASS_TO_STREAM_MODE:
+    case 0x04:
       *val = LPS25HB_BYPASS_TO_STREAM_MODE;
       break;
 
-    case LPS25HB_MEAN_MODE:
+    case 0x06:
       *val = LPS25HB_MEAN_MODE;
       break;
 
-    case LPS25HB_BYPASS_TO_FIFO_MODE:
+    case 0x07:
       *val = LPS25HB_BYPASS_TO_FIFO_MODE;
       break;
 
@@ -2021,11 +2021,11 @@ int32_t lps25hb_spi_mode_get(const stmdev_ctx_t *ctx, lps25hb_sim_t *val)
 
   switch (reg.sim)
   {
-    case LPS25HB_SPI_4_WIRE:
+    case 0x00:
       *val = LPS25HB_SPI_4_WIRE;
       break;
 
-    case LPS25HB_SPI_3_WIRE:
+    case 0x01:
       *val = LPS25HB_SPI_3_WIRE;
       break;
 
@@ -2082,11 +2082,11 @@ int32_t lps25hb_i2c_interface_get(const stmdev_ctx_t *ctx,
 
   switch (reg.i2c_dis)
   {
-    case LPS25HB_I2C_ENABLE:
+    case 0x00:
       *val = LPS25HB_I2C_ENABLE;
       break;
 
-    case LPS25HB_I2C_DISABLE:
+    case 0x01:
       *val = LPS25HB_I2C_DISABLE;
       break;
 
