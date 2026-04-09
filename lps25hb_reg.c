@@ -136,7 +136,7 @@ int32_t lps25hb_pressure_ref_set(const stmdev_ctx_t *ctx, int32_t val)
   int32_t ret;
 
   buff[2] = (uint8_t)((uint32_t)val / 65536U);
-  buff[1] = (uint8_t)((uint32_t)val - (buff[2] * 65536U)) / 256U;
+  buff[1] = (uint8_t)((uint32_t)val - (buff[2] * 65536U) / 256U);
   buff[0] = (uint8_t)((uint32_t)val - (buff[2] * 65536U) -
                       (buff[1] * 256U));
   ret = lps25hb_read_reg(ctx, LPS25HB_REF_P_XL,  buff, 3);
@@ -188,7 +188,7 @@ int32_t lps25hb_pressure_avg_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.avgp = (uint8_t)val;
+    reg.avgp = (uint8_t)val & 0x03U;
     ret = lps25hb_write_reg(ctx, LPS25HB_RES_CONF, (uint8_t *)&reg, 1);
   }
 
@@ -257,7 +257,7 @@ int32_t lps25hb_temperature_avg_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.avgt = (uint8_t)val;
+    reg.avgt = (uint8_t)val & 0x03U;
     ret = lps25hb_write_reg(ctx, LPS25HB_RES_CONF, (uint8_t *)&reg, 1);
   }
 
@@ -325,7 +325,7 @@ int32_t lps25hb_autozero_rst_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.reset_az = val;
+    reg.reset_az = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG1, (uint8_t *)&reg, 1);
   }
 
@@ -371,7 +371,7 @@ int32_t lps25hb_block_data_update_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.bdu = val;
+    reg.bdu = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG1, (uint8_t *)&reg, 1);
   }
 
@@ -417,7 +417,7 @@ int32_t lps25hb_data_rate_set(const stmdev_ctx_t *ctx, lps25hb_odr_t val)
 
   if (ret == 0)
   {
-    reg.odr = (uint8_t)val;
+    reg.odr = (uint8_t)val & 0x0FU;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG1, (uint8_t *)&reg, 1);
   }
 
@@ -492,7 +492,7 @@ int32_t lps25hb_one_shoot_trigger_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.one_shot = val;
+    reg.one_shot = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -538,7 +538,7 @@ int32_t lps25hb_autozero_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.autozero = val;
+    reg.autozero = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -586,7 +586,7 @@ int32_t lps25hb_fifo_mean_decimator_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.fifo_mean_dec = val;
+    reg.fifo_mean_dec = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -747,8 +747,7 @@ int32_t lps25hb_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *buff)
 
   if (ret != 0) { return ret; }
 
-  *buff = reg[1];
-  *buff = (*buff * 256) + reg[0];
+  *buff = (int16_t)(reg[0] | ((uint16_t)reg[1] << 8));
 
   return ret;
 }
@@ -792,8 +791,7 @@ int32_t lps25hb_pressure_offset_get(const stmdev_ctx_t *ctx, int16_t *val)
 
   if (ret != 0) { return ret; }
 
-  *val = (int16_t)buff[1];
-  *val = (*val * 256) + (int16_t)buff[0];
+  *val = (int16_t)(buff[0] | ((uint16_t)buff[1] << 8));
 
   return ret;
 }
@@ -844,7 +842,7 @@ int32_t lps25hb_reset_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.swreset = val;
+    reg.swreset = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -890,7 +888,7 @@ int32_t lps25hb_boot_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.boot = val;
+    reg.boot = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -966,7 +964,7 @@ int32_t lps25hb_int_generation_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.diff_en = val;
+    reg.diff_en = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG1, (uint8_t *)&reg, 1);
   }
 
@@ -1013,7 +1011,7 @@ int32_t lps25hb_int_pin_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.int_s = (uint8_t)val;
+    reg.int_s = (uint8_t)val & 0x03U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG3, (uint8_t *)&reg, 1);
   }
 
@@ -1081,7 +1079,7 @@ int32_t lps25hb_pin_mode_set(const stmdev_ctx_t *ctx, lps25hb_pp_od_t val)
 
   if (ret == 0)
   {
-    reg.pp_od = (uint8_t)val;
+    reg.pp_od = (uint8_t)val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG3, (uint8_t *)&reg, 1);
   }
 
@@ -1141,7 +1139,7 @@ int32_t lps25hb_int_polarity_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.int_h_l = (uint8_t)val;
+    reg.int_h_l = (uint8_t)val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG3, (uint8_t *)&reg, 1);
   }
 
@@ -1201,7 +1199,7 @@ int32_t lps25hb_drdy_on_int_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.drdy = val;
+    reg.drdy = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG4, (uint8_t *)&reg, 1);
   }
 
@@ -1247,7 +1245,7 @@ int32_t lps25hb_fifo_ovr_on_int_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.f_ovr = val;
+    reg.f_ovr = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG4, (uint8_t *)&reg, 1);
   }
 
@@ -1294,7 +1292,7 @@ int32_t lps25hb_fifo_threshold_on_int_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.f_fth = val;
+    reg.f_fth = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG4, (uint8_t *)&reg, 1);
   }
 
@@ -1341,7 +1339,7 @@ int32_t lps25hb_fifo_empty_on_int_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.f_empty = val;
+    reg.f_empty = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG4, (uint8_t *)&reg, 1);
   }
 
@@ -1388,7 +1386,7 @@ int32_t lps25hb_sign_of_int_threshold_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.pe = (uint8_t)val;
+    reg.pe = (uint8_t)val & 0x03U;
     ret = lps25hb_write_reg(ctx, LPS25HB_INTERRUPT_CFG, (uint8_t *)&reg, 1);
   }
 
@@ -1457,7 +1455,7 @@ int32_t lps25hb_int_notification_mode_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.lir = (uint8_t)val;
+    reg.lir = (uint8_t)val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_INTERRUPT_CFG, (uint8_t *)&reg, 1);
   }
 
@@ -1621,8 +1619,7 @@ int32_t lps25hb_int_threshold_get(const stmdev_ctx_t *ctx, uint16_t *val)
 
   if (ret != 0) { return ret; }
 
-  *val = buff[1];
-  *val = (*val * 256) + buff[0];
+  *val = (uint16_t)(buff[0] | ((uint16_t)buff[1] << 8));
 
   return ret;
 }
@@ -1657,7 +1654,7 @@ int32_t lps25hb_stop_on_fifo_threshold_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.stop_on_fth = val;
+    reg.stop_on_fth = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -1704,7 +1701,7 @@ int32_t lps25hb_fifo_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.fifo_en = val;
+    reg.fifo_en = val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 
@@ -1750,7 +1747,7 @@ int32_t lps25hb_fifo_watermark_set(const stmdev_ctx_t *ctx, uint8_t val)
 
   if (ret == 0)
   {
-    reg.wtm_point = val;
+    reg.wtm_point = val & 0x1FU;
     ret = lps25hb_write_reg(ctx, LPS25HB_FIFO_CTRL, (uint8_t *)&reg, 1);
   }
 
@@ -1796,7 +1793,7 @@ int32_t lps25hb_fifo_mode_set(const stmdev_ctx_t *ctx, lps25hb_f_mode_t val)
 
   if (ret == 0)
   {
-    reg.f_mode = (uint8_t)val;
+    reg.f_mode = (uint8_t)val & 0x07U;
     ret = lps25hb_write_reg(ctx, LPS25HB_FIFO_CTRL, (uint8_t *)&reg, 1);
   }
 
@@ -1995,7 +1992,7 @@ int32_t lps25hb_spi_mode_set(const stmdev_ctx_t *ctx, lps25hb_sim_t val)
 
   if (ret == 0)
   {
-    reg.sim = (uint8_t)val;
+    reg.sim = (uint8_t)val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG1, (uint8_t *)&reg, 1);
   }
 
@@ -2055,7 +2052,7 @@ int32_t lps25hb_i2c_interface_set(const stmdev_ctx_t *ctx,
 
   if (ret == 0)
   {
-    reg.i2c_dis = (uint8_t)val;
+    reg.i2c_dis = (uint8_t)val & 0x01U;
     ret = lps25hb_write_reg(ctx, LPS25HB_CTRL_REG2, (uint8_t *)&reg, 1);
   }
 

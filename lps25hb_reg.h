@@ -615,10 +615,10 @@ typedef enum
   LPS25HB_BYPASS_MODE               = 0,
   LPS25HB_FIFO_MODE                 = 1,
   LPS25HB_STREAM_MODE               = 2,
-  LPS25HB_Stream_to_FIFO_mode      = 3,
-  LPS25HB_BYPASS_TO_STREAM_MODE    = 4,
+  LPS25HB_Stream_to_FIFO_mode       = 3,
+  LPS25HB_BYPASS_TO_STREAM_MODE     = 4,
   LPS25HB_MEAN_MODE                 = 6,
-  LPS25HB_BYPASS_TO_FIFO_MODE      = 7,
+  LPS25HB_BYPASS_TO_FIFO_MODE       = 7,
 } lps25hb_f_mode_t;
 int32_t lps25hb_fifo_mode_set(const stmdev_ctx_t *ctx,
                               lps25hb_f_mode_t val);
