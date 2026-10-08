@@ -30,7 +30,22 @@ This directory contains the LPS25HB component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section8" checked aria-hidden="true">
+<label for="collapse-section8" aria-hidden="true">V2.2.2 / 08-Oct-2026</label>
+<div>
+
+## Main changes
+
+- Fix pressure_ref_set API
+- Fix gcc and clang compilation warnings
+- Change switch cases to use hex values
+- Fix parameter names to stmdev read/write/deleay functions
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section7" aria-hidden="true">
 <label for="collapse-section7" aria-hidden="true">V2.2.1 / 18-Mar-2026</label>
 <div>
 
